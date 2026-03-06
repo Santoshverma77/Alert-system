@@ -1,10 +1,12 @@
 import React from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.jpeg';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Navbar() {
     const location = useLocation();
     const navigate = useNavigate();
+    const { language, setLanguage, t, languageOptions } = useLanguage();
 
     const handleNavigation = (e, targetId) => {
         e.preventDefault();
@@ -47,15 +49,15 @@ export default function Navbar() {
                 <Link to="/" className="flex items-center gap-3">
                     <img
                         src={logo}
-                        alt="नगर Alert Hub Logo"
+                        alt={t('brandLogoAlt')}
                         className="w-11 h-11 rounded-full object-cover"
                     />
                     <div>
                         <h1 className="font-bold text-lg text-white leading-tight">
-                            नगर Alert Hub
+                            {t('brandName')}
                         </h1>
                         <span className="text-xs text-white/70">
-                            Civic Intelligence Platform
+                            {t('civicTagline')}
                         </span>
                     </div>
                 </Link>
@@ -63,16 +65,28 @@ export default function Navbar() {
                 {/* Desktop Nav */}
                 {!isDashboard && (
                     <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/80">
-                        <Link to="/" className="hover:text-white">Home</Link>
-                        <a onClick={(e) => handleNavigation(e, 'features')} className="cursor-pointer hover:text-white">Features</a>
-                        <a onClick={(e) => handleNavigation(e, 'whatsapp')} className="cursor-pointer hover:text-white">WhatsApp</a>
-                        <a onClick={(e) => handleNavigation(e, 'about')} className="cursor-pointer hover:text-white">About</a>
+                        <Link to="/" className="hover:text-white">{t('home')}</Link>
+                        <a onClick={(e) => handleNavigation(e, 'features')} className="cursor-pointer hover:text-white">{t('features')}</a>
+                        <a onClick={(e) => handleNavigation(e, 'whatsapp')} className="cursor-pointer hover:text-white">{t('whatsapp')}</a>
+                        <a onClick={(e) => handleNavigation(e, 'about')} className="cursor-pointer hover:text-white">{t('about')}</a>
                     </div>
                 )}
 
                 {/* Desktop Actions */}
                 <div className="hidden md:flex items-center gap-4">
-
+                    {/* Language Switcher */}
+                    <select
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                        className="px-2 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:ring-1 focus:ring-white/40"
+                        title={t('language')}
+                    >
+                        {languageOptions.map((opt) => (
+                            <option key={opt.code} value={opt.code} className="bg-slate-800 text-white">
+                                {opt.label}
+                            </option>
+                        ))}
+                    </select>
                     {/* Theme Toggle */}
                     <button
                         onClick={toggleTheme}
@@ -96,7 +110,7 @@ export default function Navbar() {
                             to="/login"
                             className="px-5 py-2 rounded-lg border border-white/20 text-white hover:bg-white/10 transition"
                         >
-                            Login
+                            {t('login')}
                         </Link>
                     )}
 
@@ -105,7 +119,7 @@ export default function Navbar() {
                             to="/"
                             className="px-5 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition"
                         >
-                            Logout
+                            {t('logout')}
                         </Link>
                     )}
                 </div>
@@ -132,30 +146,41 @@ export default function Navbar() {
                 <div className="flex flex-col h-full pt-28 px-6 pb-10 overflow-y-auto">
 
                     <div className="flex flex-col gap-4">
+                        <select
+                            value={language}
+                            onChange={(e) => setLanguage(e.target.value)}
+                            className="p-3 rounded-xl bg-white/10 border border-white/20 text-white text-sm"
+                        >
+                            {languageOptions.map((opt) => (
+                                <option key={opt.code} value={opt.code} className="bg-slate-800 text-white">
+                                    {opt.label}
+                                </option>
+                            ))}
+                        </select>
                         <Link
                             to="/"
                             onClick={() => setIsMenuOpen(false)}
                             className="p-4 rounded-xl hover:bg-white/5 text-lg font-medium border-b border-white/5 text-white"
                         >
-                            Home
+                            {t('home')}
                         </Link>
                         <button
                             onClick={(e) => { handleNavigation(e, 'features'); setIsMenuOpen(false); }}
                             className="p-4 rounded-xl hover:bg-white/5 text-lg font-medium border-b border-white/5 text-left w-full text-white bg-transparent"
                         >
-                            Features
+                            {t('features')}
                         </button>
                         <button
                             onClick={(e) => { handleNavigation(e, 'whatsapp'); setIsMenuOpen(false); }}
                             className="p-4 rounded-xl hover:bg-white/5 text-lg font-medium border-b border-white/5 text-left w-full text-white bg-transparent"
                         >
-                            WhatsApp
+                            {t('whatsapp')}
                         </button>
                         <button
                             onClick={(e) => { handleNavigation(e, 'about'); setIsMenuOpen(false); }}
                             className="p-4 rounded-xl hover:bg-white/5 text-lg font-medium border-b border-white/5 text-left w-full text-white bg-transparent"
                         >
-                            About
+                            {t('about')}
                         </button>
                     </div>
 
@@ -183,7 +208,7 @@ export default function Navbar() {
                                 onClick={() => setIsMenuOpen(false)}
                                 className="w-full py-4 rounded-xl border border-white/20 hover:bg-white/5 text-center transition-colors text-white"
                             >
-                                Login
+                                {t('login')}
                             </Link>
                         )}
 
@@ -193,7 +218,7 @@ export default function Navbar() {
                                 onClick={() => setIsMenuOpen(false)}
                                 className="w-full py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white text-center font-bold"
                             >
-                                Logout
+                                {t('logout')}
                             </Link>
                         )}
                     </div>

@@ -39,11 +39,13 @@ import AdminNotifications from './pages/admin/Notifications';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 const App = () => {
   return (
     <HashRouter>
       <ThemeProvider>
+        <LanguageProvider>
         <AuthProvider>
           <Routes>
             <Route path="*" element={<Home />} />
@@ -91,6 +93,7 @@ const App = () => {
 
           </Routes>
         </AuthProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </HashRouter>
   );

@@ -5,7 +5,6 @@ import {
     Features,
     WhatsAppIntegration,
     About,
-    Footer,
     HowItWorks,
     Municipalities,
     SuccessStories,
@@ -34,7 +33,6 @@ export default function Home() {
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
             </Routes>
-            <Footer />
         </div>
     );
 }
